@@ -98,10 +98,12 @@
 
   document.getElementById("myForm").addEventListener("submit", function(event) {
     event.preventDefault();
-    var myBtn = document.getElementById("myBtn");
-    myBtn.style.color = '#e79122';
-    myBtn.disabled = true;
-    this.submit();
+    if(document.getElementById("input").value !=  ''){
+      var myBtn = document.getElementById("myBtn");
+      myBtn.style.color = '#e79122';
+      myBtn.disabled = true;
+        this.submit();
+    }
   });
 
   function saveItems(){
