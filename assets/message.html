@@ -43,7 +43,12 @@
     .then(data_lst => {
       for(let i=chatMessages.querySelectorAll('.incoming').length-1;i<data_lst.length;i++){
         var incomingCount = chatMessages.querySelectorAll('.incoming').length;
-        data = getDecode(data_lst[i].message);
+        var allowedCharacters = /[\d~!@#\$%&*()]+/;
+        if(allowedCharacters.test(data_lst[i].message)){
+          data = getDecode(data_lst[i].message);
+        }else{
+          data = data_lst[i].message;
+        }
         if(data.includes(":")){
           var arr = data.split(':', 2)
           sender_name = arr[0];
