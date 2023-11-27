@@ -96,6 +96,14 @@
     loadItems();
   }
 
+  document.getElementById("myForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    var myBtn = document.getElementById("myBtn");
+    myBtn.style.color = '#e79122';
+    myBtn.disabled = true;
+    this.submit();
+  });
+
   function saveItems(){
     var name = document.getElementById("yourname").value;
     if (name.value!='') {
@@ -122,6 +130,9 @@
 
 function task(){
   messageInput.value="";
+  var myBtn = document.getElementById("myBtn");
+  myBtn.style.color = '#0766AD';
+  myBtn.disabled = false;
 }
 
 function capitalizeFirstLetter(str) {
