@@ -40,14 +40,14 @@
         <div class="container-fluid mt-5">
           <iframe class="ratio" id="dispframe"></iframe>
         </div>
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){task();}"></iframe>
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){}"></iframe>
         <form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd8rKNkDZIuZL1AXaiBKcbCkMwdv1h8gOqfsQFvGAlITeYVzg/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
-          <div class="chat-input navbar navbar-expand-lg fixed-bottom">
-            <input type="text" placeholder="your message is here..." id="input1" name="entry.1205698468" hidden>
-            <input type="text" placeholder="Type your message here..." id="input" onkeyup="inputKey(event)">
-            <button id="myBtn" type="submit" ><span class="material-symbols-outlined" style="font-size:30px;">send</span></button>
-          </div>
+          <input type="text" placeholder="your message is here..." id="input1" name="entry.1205698468" hidden>
         </form>
+          <div class="chat-input navbar navbar-expand-lg fixed-bottom">
+            <input type="text" placeholder="Type your message here..." id="input" onkeyup="inputKey(event)">
+            <button id="myBtn" type="button" onclick="submitForm()"><span class="material-symbols-outlined" style="font-size:30px;">send</span></button>
+          </div>
 
     <!-- The Modal -->
     <div class="modal" id="myModal">
@@ -96,15 +96,22 @@
     loadItems();
   }
 
-  document.getElementById("myForm").addEventListener("submit", function(event) {
-    event.preventDefault();
-    if(document.getElementById("input").value !=  ''){
-      var myBtn = document.getElementById("myBtn");
+  function submitForm() {
+    var form = document.getElementById("myForm");
+    var inp = document.getElementById("input");
+    var myBtn = document.getElementById("myBtn");
+    if(inp.value !=  ''){
       myBtn.style.color = '#e79122';
       myBtn.disabled = true;
-        this.submit();
+      form.submit();
+      inp.value = "";
     }
-  });
+    inp.focus();
+    myBtn.style.color = '#0766AD';
+    myBtn.disabled = false;
+  }
+
+ 
 
   function saveItems(){
     var name = document.getElementById("yourname").value;
@@ -130,13 +137,14 @@
     }
   }
 
-function task(){
+/*function task(){
+  alert('hello');
   messageInput.value="";
   var myBtn = document.getElementById("myBtn");
   myBtn.style.color = '#0766AD';
   myBtn.disabled = false;
   messageInput.focus();
-}
+}*/
 
 function capitalizeFirstLetter(str) {
   return str.split(' ').map(function(word) {
