@@ -50,11 +50,17 @@
           messageText=arr[1];
           if(incomingCount<data_lst.length+1){
             myFunction(messageText);
+            var elements = document.querySelectorAll('.incoming');
+            var lastElement = elements[elements.length - 1];
+            lastElement.scrollIntoView({ behavior: 'smooth' });
           }
         }else{
           messageText=data;
           if(incomingCount<data_lst.length+1){
             myFunction(messageText);
+            var elements = document.querySelectorAll('.incoming');
+            var lastElement = elements[elements.length - 1];
+            lastElement.scrollIntoView({ behavior: 'smooth' });
           }
         }
       }
