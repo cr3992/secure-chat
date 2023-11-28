@@ -24,6 +24,10 @@
       body{
         background-image: url('assets/img/peakpx.jpg');
       }
+      .form-check-input:checked {
+        background-color: #0766AD;
+        border-color: #0766AD;
+    }
     </style>
 </head>
 <body>
@@ -62,11 +66,23 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-              <div class="row">
-                  <div class="col-6 border-end border-dark">
-                      <input type="text" class="form-control text-end bg-light-subtle" value="Name" readonly>
+            <div class="row mb-3">
+              <div class="col-3 text-center">
+                <label class="form-check-label" for="flexSwitchCheckDefault">Safe Mode</label>
+              </div>
+              <div class="col-8">
+                <div class="form-check form-switch">
+                  <label class="form-check-label text-sm text-muted" for="flexSwitchCheckDefault">(emojis may not work in safe mode)</label>
+                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onchange="safeMode(event)">
+                </div>
+              </div>
+            </div>
+
+              <div class="row mb-3">
+                  <div class="col-3 text-center">
+                      <label for="yourname">Name</label>
                   </div>
-                  <div class="col-6">
+                  <div class="col-8">
                       <input type="text" class="form-control text-start bg-light-subtle" value="unknown" id="yourname">
                   </div>
               </div>
@@ -74,8 +90,11 @@
 
           <!-- Modal footer -->
           <div class="modal-footer justify-content-center mb-3">
-          <button type="button" class="" data-bs-dismiss="modal" onclick="saveItems()" style="color:#f2e5bc;background-color:#20365d;border-radius:10px;width:100px;height:35px;">Save</button>
+            <button type="button" class="" data-bs-dismiss="modal" onclick="saveItems()" style="color:#f2e5bc;background-color:#20365d;border-radius:10px;width:100px;height:35px;">Save</button>
           </div>
+
+          
+          
 
       </div>
       </div>
@@ -111,7 +130,13 @@
     myBtn.disabled = false;
   }
 
- 
+ function safeMode(event){
+  if(event.target.checked){
+    localStorage.setItem('safemode','on');
+  }else{
+    localStorage.setItem('safemode','off');
+  }
+}
 
   function saveItems(){
     var name = document.getElementById("yourname").value;
@@ -126,6 +151,18 @@
     } else {
       document.getElementById("yourname").value = localStorage.getItem('yourname');
     }
+    if(localStorage.getItem('safemode') === null){
+      localStorage.setItem('safemode','on');
+      document.getElementById("flexSwitchCheckDefault").checked = true;
+    }else{
+      if(localStorage.getItem('safemode') === 'on'){
+        document.getElementById("flexSwitchCheckDefault").checked = true;
+      }
+      if(localStorage.getItem('safemode') === 'off'){
+        document.getElementById("flexSwitchCheckDefault").checked = false;
+      }
+    }
+
   }
 
   
@@ -133,7 +170,12 @@
     var sender_name = document.getElementById("yourname").value;
     var message = capitalizeFirstLetter(sender_name)+": "+messageInput.value;
     if (messageInput.value !=  null) {
-      document.getElementById("input1").value = getEncode(message);
+      if(localStorage.getItem('safemode') === 'on'){
+        document.getElementById("input1").value = getEncode(message);
+      }
+      if(localStorage.getItem('safemode') === 'off'){
+        document.getElementById("input1").value = message;
+      }
     }
   }
 
