@@ -1,200 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html>
+	<head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,1,0" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
-    <link rel="stylesheet" href="assets/index.css">
-    <style>
-      #myBtn{
-        color: #0766AD;
-        border:none;
-        text-align: center;
-      }
-      #dispframe{
-        display: none;
-      }
-      body{
-        background-image: url('assets/img/peakpx.jpg');
-      }
-      .form-check-input:checked {
-        background-color: #0766AD;
-        border-color: #0766AD;
-    }
-    </style>
-</head>
-<body>
-  <div class="chat-container">
-    <div class="header navbar navbar-expand-lg fixed-top" id="myHeader">
-      
-      <span class="material-symbols-outlined" style="float:left;margin-left:1rem;">chat</span>
-      <h4 style="float:left;">Secure Chat Room</h4>
-      <button style="float:left;background:none;border:none;color:white;" data-bs-toggle="modal" data-bs-target="#myModal"><span class="material-symbols-outlined">settings</span></button>
-      <div>
+		<title>Chat</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <link rel="stylesheet" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	</head>
+	<body onload="loadSavedContacts()">
+		<div class="container-fluid">
+      <nav class="navbar navbar-expand-lg fixed-top shadow" id="nav">
+        <a class="navbar-brand text-light" href="#"><img src="img/meetme.png" alt="" width="30" height="30"> Secure Chat</a>
+        <ul class="navbar-nav ml-auto px-3">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+                <i class="fas fa-search text-light"></i>
+              </a>
+          </li>
+      </ul>
+      <ul class="navbar-nav ml-auto px-3">
+        <li class="nav-item">
+            <a href="setting.html" class="nav-link  text-light"><i class="fas fa-cog"></i></a>
+        </li>
+      </ul>
+    </nav>
+
+      <div class="row justify-content-center" id="contacts-row"> 
+				<div class="col-md-4 col-xl-3 chat">
+          <div class="card mb-sm-3 mb-md-0 contacts_card">
+					<div class="card-body contacts_body">
+            <ul class="contacts" id="contacts">
+						
+						</ul>
+					</div>
+				</div>
       </div>
       </div>
-
-        <div class="container-fluid mt-5">
-          <iframe class="ratio" id="dispframe"></iframe>
-        </div>
-        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){}"></iframe>
-        <form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd8rKNkDZIuZL1AXaiBKcbCkMwdv1h8gOqfsQFvGAlITeYVzg/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
-          <input type="text" placeholder="your message is here..." id="input1" name="entry.1205698468" hidden>
-        </form>
-          <div class="chat-input navbar navbar-expand-lg fixed-bottom">
-            <input type="text" placeholder="Type your message here..." id="input" onkeyup="inputKey(event)">
-            <button id="myBtn" type="button" onclick="submitForm()"><span class="material-symbols-outlined" style="font-size:30px;">send</span></button>
-          </div>
-
-    <!-- The Modal -->
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-      <div class="modal-content">
-
-          <!-- Modal Header -->
-          <div class="modal-header">
-          <h4 class="modal-title">Settings</h4>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-
-          <!-- Modal body -->
-          <div class="modal-body">
-            <div class="row mb-3">
-              <div class="col-3 text-center">
-                <label class="form-check-label" for="flexSwitchCheckDefault">Safe Mode</label>
-              </div>
-              <div class="col-8">
-                <div class="form-check form-switch">
-                  <label class="form-check-label text-sm text-muted" for="flexSwitchCheckDefault">(emojis may not work in safe mode)</label>
-                  <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" onchange="safeMode(event)">
-                </div>
-              </div>
-            </div>
-
-              <div class="row mb-3">
-                  <div class="col-3 text-center">
-                      <label for="yourname">Name</label>
-                  </div>
-                  <div class="col-8">
-                      <input type="text" class="form-control text-start bg-light-subtle" value="unknown" id="yourname">
-                  </div>
-              </div>
-          </div>
-
-          <!-- Modal footer -->
-          <div class="modal-footer justify-content-center mb-3">
-            <button type="button" class="" data-bs-dismiss="modal" onclick="saveItems()" style="color:#f2e5bc;background-color:#20365d;border-radius:10px;width:100px;height:35px;">Save</button>
-          </div>
-
-          
-          
-
-      </div>
-      </div>
+      <a href="contacts.html" class="fixed-button" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus"></i></a>
     </div>
-
-
-      </div>
-      
- <script src="assets/encode_decode.js"></script>
- <script>
-  const messageInput = document.querySelector('.chat-input #input');
-  const sendButton = document.querySelector('.chat-input button');
-  var mymodel = document.getElementById("mymodel");
-
-  window.onload = function(){
-    document.getElementById("dispframe").style.display = "block";
-    document.getElementById("dispframe").setAttribute("src","assets/message.html");
-    loadItems();
-  }
-
-  function submitForm() {
-    var form = document.getElementById("myForm");
-    var inp = document.getElementById("input");
-    var myBtn = document.getElementById("myBtn");
-    if(inp.value !=  ''){
-      myBtn.style.color = '#e79122';
-      myBtn.disabled = true;
-      form.submit();
-      inp.value = "";
-    }
-    inp.focus();
-    myBtn.style.color = '#0766AD';
-    myBtn.disabled = false;
-  }
-
- function safeMode(event){
-  if(event.target.checked){
-    localStorage.setItem('safemode','on');
-  }else{
-    localStorage.setItem('safemode','off');
-  }
-}
-
-  function saveItems(){
-    var name = document.getElementById("yourname").value;
-    if (name.value!='') {
-      localStorage.setItem('yourname',name);
-      alert("Data Saved!");
-    }
-  }
-  function loadItems(){
-    if (localStorage.getItem('yourname') === null) {
-      alert("Please enter your name in settings");
-    } else {
-      document.getElementById("yourname").value = localStorage.getItem('yourname');
-    }
-    if(localStorage.getItem('safemode') === null){
-      localStorage.setItem('safemode','on');
-      document.getElementById("flexSwitchCheckDefault").checked = true;
-    }else{
-      if(localStorage.getItem('safemode') === 'on'){
-        document.getElementById("flexSwitchCheckDefault").checked = true;
-      }
-      if(localStorage.getItem('safemode') === 'off'){
-        document.getElementById("flexSwitchCheckDefault").checked = false;
-      }
-    }
-
-  }
-
-  
-  function inputKey(event){
-    var sender_name = document.getElementById("yourname").value;
-    var message = capitalizeFirstLetter(sender_name)+": "+messageInput.value;
-    if (messageInput.value !=  null) {
-      if(localStorage.getItem('safemode') === 'on'){
-        document.getElementById("input1").value = getEncode(message);
-      }
-      if(localStorage.getItem('safemode') === 'off'){
-        document.getElementById("input1").value = message;
-      }
-    }
-  }
-
-/*function task(){
-  alert('hello');
-  messageInput.value="";
-  var myBtn = document.getElementById("myBtn");
-  myBtn.style.color = '#0766AD';
-  myBtn.disabled = false;
-  messageInput.focus();
-}*/
-
-function capitalizeFirstLetter(str) {
-  return str.split(' ').map(function(word) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-  }).join(' ');
-}
-
- </script>
-      
-</body>
+				
+    <script src="script.js"></script>
+	</body>
 </html>

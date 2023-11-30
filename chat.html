@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chat</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<link rel="stylesheet" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<style>
+			body{
+				overflow-y: auto;
+			}
+		</style>
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg fixed-top shadow" id="nav">
+			<div class="d-flex align-items-center">
+				<a href="index.html" class="nav-link text-light"><i class="fas fa-arrow-left"></i></a>
+				<div class="img_cont"><img src="" id="imageUrl" class="rounded-circle user_img"><span class="online_icon" id="onlineIcon"></span></div>
+				<div class="user_info"><span class="text-light" id="userName"></span><p class="text-light" id="status"></p></div>
+			</div>
+		</nav>
+
+	<div class="row justify-content-center" style="margin-top: 70px; margin-bottom: 70px;">
+	<div class="col-md-8 col-xl-3 chat">
+		<div class="card">
+			<div class="card-body msg_card_body chat-messages" id="chat-container">
+				<div class="message incoming">
+				</div>
+			</div>
+			
+		</div>
+		</div>
+	</div>
+
+	<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){}"></iframe>
+        <form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd8rKNkDZIuZL1AXaiBKcbCkMwdv1h8gOqfsQFvGAlITeYVzg/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+          <input type="text"  id="input_msg" name="entry.1205698468" hidden>
+          <input type="text"  id="input_sender" name="entry.1569274045" hidden>
+          <input type="text"  id="input_receiver" name="entry.1024812815" hidden>
+          <input type="text"  id="input_date" name="entry.1106895308" hidden>
+          <input type="text"  id="input_time" name="entry.379296107" hidden>
+        </form>
+	<nav class="navbar fixed-bottom" id="msg-input">
+		<div class="container-fluid">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+				</div>
+				<textarea name="" id="msg" class="form-control type_msg" onkeyup="inputKey(event)" placeholder="Type your message..."></textarea>
+				<div class="input-group-append">
+					<button class="btn" type="button" id="myBtn" onclick="submitForm()"><span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span></button>
+				</div>
+			</div>
+		</div>
+	</nav>
+	</div>
+	<script>
+		const urlParams = new URLSearchParams(window.location.search);
+		var lastActivity = urlParams.get('lastActivity');
+		document.getElementById('userName').innerText = capitalizeFirstLetter(urlParams.get('username'));
+		if(urlParams.get('isOnline')=="true"){
+			document.getElementById('status').innerText = capitalizeFirstLetter("online");
+			document.getElementById('onlineIcon').style.color = "#4cd137";
+		}else{
+			document.getElementById('status').innerText = capitalizeFirstLetter(lastActivity);
+			document.getElementById('onlineIcon').style.backgroundColor = "#c23616";
+		}
+		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
+		
+		function submitForm() {
+			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
+			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
+			var form = document.getElementById("myForm");
+			var inp = document.getElementById("msg");
+			var myBtn = document.getElementById("myBtn");
+			if(inp.value !=  ''){
+			  myBtn.disabled = true;
+			  form.submit();
+			  inp.value = "";
+			}
+			inp.focus();
+			myBtn.disabled = false;
+		  }
+		  
+
+		  function inputKey(event){
+			var sender_phone = '';
+			if(localStorage.getItem("profile_phone") != null){
+				sender_phone = localStorage.getItem("profile_phone").trim();
+			}else{
+				alert('Please enter your phone number in settings');
+				window.location.href = "setting.html";
+			}
+			var message = document.getElementById("msg").value;
+			if (message !=  null) {
+				document.getElementById("input_msg").value = message;
+			}
+			document.getElementById("input_sender").value = sender_phone;
+			document.getElementById("input_receiver").value = urlParams.get('mobileNumber');
+		  }
+		function generateIncomingCard(message, time ,imgUrl) {
+			var container = document.createElement('div');
+			container.classList.add('d-flex', 'justify-content-start', 'mb-4','message','incoming');
+			var imgContainer = document.createElement('div');
+			imgContainer.classList.add('img_cont_msg');
+		
+			var img = document.createElement('img');
+			img.src = imgUrl;
+			img.classList.add('rounded-circle', 'user_img_msg');
+		
+			imgContainer.appendChild(img);
+		
+			var msgContainer = document.createElement('div');
+			msgContainer.classList.add('msg_cotainer');
+		
+			var textNode = document.createTextNode(message);
+		
+			var timeSpan = document.createElement('span');
+			timeSpan.classList.add('msg_time');
+			timeSpan.textContent = time;
+		
+			msgContainer.appendChild(textNode);
+			msgContainer.appendChild(timeSpan);
+		
+			container.appendChild(imgContainer);
+			container.appendChild(msgContainer);
+		
+			var incomingMsg = document.getElementById('chat-container');
+			incomingMsg.appendChild(container);
+			var chatContainer = document.querySelector('#chat-container');
+			var lastElement = chatContainer.lastElementChild;
+			lastElement.scrollIntoView({ behavior: 'smooth' });
+		}
+
+		function generateDateCard(date){
+			var container = document.createElement('div');
+			container.classList.add('d-flex', 'justify-content-center', 'mb-4','message');
+			var dateContainer = document.createElement('div');
+			dateContainer.classList.add('date_card');
+			var textNode = document.createTextNode(date);
+			dateContainer.appendChild(textNode);
+			container.appendChild(dateContainer);
+			var dateLabel = document.getElementById('chat-container');
+			dateLabel.appendChild(container);
+			var chatContainer = document.querySelector('#chat-container');
+			var lastElement = chatContainer.lastElementChild;
+			lastElement.scrollIntoView({ behavior: 'smooth' });
+
+		}
+
+		function generateOutgoingCard(message, time,imgUrl) {
+			var container = document.createElement('div');
+			container.classList.add('d-flex', 'justify-content-end', 'mb-4','message','incoming');
+		
+			var msgContainerSend = document.createElement('div');
+			msgContainerSend.classList.add('msg_cotainer_send');
+		
+			var textNode = document.createTextNode(message);
+		
+			var timeSpanSend = document.createElement('span');
+			timeSpanSend.classList.add('msg_time_send');
+			timeSpanSend.textContent = time;
+		
+			msgContainerSend.appendChild(textNode);
+			msgContainerSend.appendChild(timeSpanSend);
+		
+			var imgContainerMsg = document.createElement('div');
+			imgContainerMsg.classList.add('img_cont_msg');
+		
+			var imgMsg = document.createElement('img');
+			imgMsg.src = imgUrl; 
+			imgMsg.classList.add('rounded-circle', 'user_img_msg');
+		
+			imgContainerMsg.appendChild(imgMsg);
+		
+			container.appendChild(msgContainerSend);
+			container.appendChild(imgContainerMsg);
+		
+			var outgoingMsg = document.getElementById('chat-container');
+			outgoingMsg.appendChild(container);
+			var chatContainer = document.querySelector('#chat-container');
+			var lastElement = chatContainer.lastElementChild;
+			lastElement.scrollIntoView({ behavior: 'smooth' });
+		}
+		function capitalizeFirstLetter(str) {
+			return str.split(' ').map(function(word) {
+				return word.charAt(0).toUpperCase() + word.slice(1);
+			}).join(' ');
+		  }
+
+
+	const chatMessages = document.querySelector('.chat-messages');
+    var my_phone='';
+	if(localStorage.getItem("profile_phone") != null){
+		my_phone = localStorage.getItem("profile_phone");
+	}
+    setInterval(loadMessages, 200);
+    function loadMessages(){
+      const url = 'https://script.google.com/macros/s/AKfycbzIvqu9R-E20uqLHUPqrmEbhLlHnfkntIjkjx5mOB2aoSQWnjezRVuEyTAzN2Ch86C-UQ/exec';
+      const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+      fetch(formUrl)
+    .then(response => response.text())
+    .then(text => {
+      return JSON.parse(text);
+    })
+    .then(data_lst => {
+	   var user_data=[];
+	   for(let i=0;i<data_lst.length;i++){
+		   if(data_lst[i].sender.trim() == urlParams.get('mobileNumber').trim() && data_lst[i].receiver.trim() == my_phone.trim()){
+			   user_data.push(data_lst[i]);
+		   }
+		   if(data_lst[i].sender.trim() == my_phone.trim() && data_lst[i].receiver.trim() == urlParams.get('mobileNumber').trim()){
+			   user_data.push(data_lst[i]);
+		   }
+	   }
+      for(let i=chatMessages.querySelectorAll('.incoming').length-1;i<user_data.length;i++){
+        var incomingCount = chatMessages.querySelectorAll('.incoming').length;
+        var messageText = user_data[i].message;
+		var sender_phone = user_data[i].sender.trim();
+		var receiver_phone = user_data[i].receiver.trim();
+		var date = user_data[i].date;
+		var time = user_data[i].time;
+
+          if(incomingCount<user_data.length+1){
+			const chatContainer = document.getElementById('chat-container');
+			const lastDateCard = chatContainer.querySelectorAll('.date_card');
+			if (lastDateCard.length == 0) {
+				generateDateCard(formatDate(date));
+			} else {
+				if (lastDateCard[lastDateCard.length - 1].textContent != formatDate(date)) {
+					generateDateCard(formatDate(date));
+				}
+			}
+			if(sender_phone.trim() == my_phone.trim() && receiver_phone.trim() == urlParams.get('mobileNumber').trim()){
+				generateOutgoingCard(messageText,time,"img/meetme.png");
+			}
+			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
+				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
+			}
+          }
+      }
+    }).catch(error => console.error('Error fetching form responses:', error)); 
+  }
+    
+
+  function getCurrentTimeAMPM(dateORtime) {
+    var currentDate = new Date();
+
+    var hours = currentDate.getHours();
+    var minutes = currentDate.getMinutes();
+    var seconds = currentDate.getSeconds();
+
+    var ampm = hours >= 12 ? 'pm' : 'am';
+
+    // Convert 24-hour format to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // If hours is 0, set it to 12
+
+	var formattedTime = padZero(hours) + ':' + padZero(minutes) +' '+ ampm;
+	if(dateORtime=='date'){
+		return currentDate.getDate() + '/' + (currentDate.getMonth()+1) + '/' + currentDate.getFullYear();
+	}
+    return formattedTime;
+}
+
+function padZero(num) {
+    return (num < 10 ? '0' : '') + num;
+}
+
+function formatDate(date_){
+	var [day, month, year] = date_.split('/');
+	var date = month+'/'+day+'/'+year;
+	const currentDate = new Date();
+    const inputDate = new Date(date);
+	const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // Check if the input date is today
+    if (
+        inputDate.getDate() === currentDate.getDate() &&
+        inputDate.getMonth() === currentDate.getMonth() &&
+        inputDate.getFullYear() === currentDate.getFullYear()
+    ) {
+        return 'Today';
+    }
+
+    // Check if the input date is yesterday
+    const yesterday = new Date(currentDate);
+    yesterday.setDate(currentDate.getDate() - 1);
+    if (
+        inputDate.getDate() === yesterday.getDate() &&
+        inputDate.getMonth() === yesterday.getMonth() &&
+        inputDate.getFullYear() === yesterday.getFullYear()
+    ) {
+        return 'Yesterday';
+    }
+
+	
+    // Check if the input date is within the current week
+	if(currentDate.getFullYear == inputDate.getFullYear && currentDate.getMonth == inputDate.getMonth && (currentDate.getDate()-inputDate.getDate())<7){
+		return daysOfWeek[inputDate.getDay()];
+	}
+
+    return date_;
+}
+
+
+  
+	</script>
+</body>
+</html>
