@@ -83,6 +83,10 @@
 			var form = document.getElementById("myForm");
 			var inp = document.getElementById("msg");
 			var myBtn = document.getElementById("myBtn");
+
+			var formData = new FormData(form);
+			generateOutgoingCard(formData.get('entry.1205698468'),formData.get('entry.379296107'),"img/meetme.png");
+			
 			if(inp.value !=  ''){
 			  myBtn.disabled = true;
 			  form.submit();
