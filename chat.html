@@ -208,7 +208,7 @@
 	if(localStorage.getItem("profile_phone") != null){
 		my_phone = localStorage.getItem("profile_phone");
 	}
-    setInterval(loadMessages, 1000);
+    setInterval(loadMessages, 500);
     function loadMessages(){
       const url = 'https://script.google.com/macros/s/AKfycbzIvqu9R-E20uqLHUPqrmEbhLlHnfkntIjkjx5mOB2aoSQWnjezRVuEyTAzN2Ch86C-UQ/exec';
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
