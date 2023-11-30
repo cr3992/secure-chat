@@ -175,9 +175,11 @@ margin-right: 20px;
 margin-top: auto;
 margin-bottom: auto;
 margin-left: 10px;
-border-radius: 25px;
+border-radius: 30px;
 background-color: #82ccdd;
-padding: 10px;
+padding-left: 20px;
+padding-right: 20px;
+padding-top: 10px;
 position: relative;
 }
 
@@ -193,26 +195,26 @@ position: relative;
 margin-top: auto;
 margin-bottom: auto;
 margin-right: 10px;
-border-radius: 25px;
+border-radius: 30px;
 background-color: #78e08f;
-padding: 10px;
+padding-left: 20px;
+padding-right: 20px;
+padding-top: 10px;
 position: relative;
 }
 .msg_time{
-position: absolute;
-left: 80px;
-bottom: -15px;
-color: rgba(255,255,255,0.5);
-font-size: 10px;
-width: 50px;
+  color: rgb(102, 99, 99);
+  font-size: 10px;
+  width: 70px;
+  height: 10px;
+  text-align: end;
 }
 .msg_time_send{
-position: absolute;
-right:0;
-bottom: -15px;
-color: rgba(255,255,255,0.5);
+color: rgb(102, 99, 99);
 font-size: 10px;
-width: 50px;
+width: 70px;
+height: 10px;
+text-align: end;
 }
 .msg_head{
 position: relative;
