@@ -214,7 +214,7 @@
 	}
  
 	function loadMessages() {
-		const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
+	const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
       fetch(formUrl)
     .then(response => response.text())
@@ -225,6 +225,7 @@
 		deleteResponses();
 	   var user_data=[];
 	   for(let i=0;i<data_lst.length;i++){
+		   if(data_lst[i].sender!=null){
 			if(typeof data_lst[i].sender === 'number'){
 				data_lst[i].sender = data_lst[i].sender.toString();
 			}
@@ -240,6 +241,7 @@
 		   }
 		   if(data_lst[i].sender.trim() == my_phone.trim() && data_lst[i].receiver.trim() == urlParams.get('mobileNumber').trim()){
 			   user_data.push(data_lst[i]);
+		   }
 		   }
 	   }
 	   
