@@ -80,7 +80,7 @@
 		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
 		
 		document.addEventListener("DOMContentLoaded", function () {
-			setInterval(loadMessages, 1000);
+			setInterval(loadMessages, 200);
 		  });
 		function submitForm() {
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
