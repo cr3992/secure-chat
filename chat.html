@@ -79,9 +79,7 @@
 		}
 		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
 		
-		document.addEventListener("DOMContentLoaded", function () {
-			setInterval(loadMessages, 200);
-		  });
+		
 		function submitForm() {
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
@@ -89,7 +87,6 @@
 			var inp = document.getElementById("msg");
 			var myBtn = document.getElementById("myBtn");
 
-		
 
 			if(inp.value !=  ''){
 			var formData = new FormData(form);
@@ -216,8 +213,8 @@
 		my_phone = localStorage.getItem("profile_phone");
 	}
  
-    function loadMessages(){
-      const url = 'https://script.google.com/macros/s/AKfycbzIvqu9R-E20uqLHUPqrmEbhLlHnfkntIjkjx5mOB2aoSQWnjezRVuEyTAzN2Ch86C-UQ/exec';
+	function loadMessages() {
+		const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
       fetch(formUrl)
     .then(response => response.text())
@@ -225,8 +222,19 @@
       return JSON.parse(text);
     })
     .then(data_lst => {
+		deleteResponses();
 	   var user_data=[];
 	   for(let i=0;i<data_lst.length;i++){
+			if(typeof data_lst[i].sender === 'number'){
+				data_lst[i].sender = data_lst[i].sender.toString();
+			}
+			if(typeof data_lst[i].receiver === 'number'){
+				data_lst[i].receiver = data_lst[i].receiver.toString();
+			}
+			if(typeof data_lst[i].message === 'number'){
+				data_lst[i].message = data_lst[i].message.toString();
+			}
+			
 		   if(data_lst[i].sender.trim() == urlParams.get('mobileNumber').trim() && data_lst[i].receiver.trim() == my_phone.trim()){
 			   user_data.push(data_lst[i]);
 		   }
@@ -234,6 +242,7 @@
 			   user_data.push(data_lst[i]);
 		   }
 	   }
+	   
 
 	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
 	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
@@ -267,6 +276,25 @@
       }
     }).catch(error => console.error('Error fetching form responses:', error)); 
   }
+
+  document.addEventListener('DOMContentLoaded', function() {
+	setInterval(function(){
+		loadMessages();
+	},800)
+  });
+  
+  function deleteResponses(){
+	fetch('https://script.google.com/macros/s/AKfycbxpMbUtvlOvfaXJMsbXNn12C-iVEhbP04ozhssTKHC7VginKKc6csqxDcsFxeDfQU0p/exec', {
+		method: 'GET',
+		mode: 'no-cors' // Set to 'no-cors' to make a request without expecting a response
+	})
+		.then(response => {
+		console.log('Delete successful:');
+		})
+		.catch(error => {
+		console.error('Error:', error);
+		});
+}
     
 
   function getCurrentTimeAMPM(dateORtime) {
