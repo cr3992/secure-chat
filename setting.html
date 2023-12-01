@@ -69,6 +69,7 @@
     <div class="header" id="myHeader">
         <a href="index.html" style="float:left;color:white;margin-top:10px;margin-left:8px;margin-right:10px;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
         <h3 style="float:left;margin-left:1rem;color:white;margin-top:10px;">Settings</h3>
+        <button type="button" class="btn" onclick="deleteAllData()" style="background:red;color:#fff;border-radius:50%;float:right;margin-right:50px;width:40px;height:40px;"><i class="fas fa-trash-alt"></i></button>
     </div>
     
         <div class="form-container">
@@ -99,6 +100,12 @@
         localStorage.setItem('profile_phone', phone.value);
        
         alert("Data Saved!");
+    }
+    function deleteAllData(){
+        var userResponse = confirm("Do you want to delete all data?\n Only admin can delete all data");
+        if (userResponse) {
+            window.open('https://script.google.com/macros/s/AKfycbzyZGlrW0buoujZCyewkTYlctL7t2LMeFLEIdNkTWymWCOSyo_xNjzpKYxEb0NixBLBiQ/exec', '_blank');
+        }
     }
     
     function loadSaveData(){
