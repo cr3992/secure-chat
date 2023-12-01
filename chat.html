@@ -19,8 +19,9 @@
 				overflow-y: auto;
 			}
 		</style>
+		
 </head>
-<body>
+<body onload="loadMessages()">
 	<div class="container-fluid">
 		<nav class="navbar navbar-expand-lg fixed-top shadow" id="nav">
 			<div class="d-flex align-items-center">
@@ -29,6 +30,7 @@
 				<div class="user_info"><span class="text-light" id="userName"></span><p class="text-light" id="status"></p></div>
 			</div>
 		</nav>
+		
 
 	<div class="row justify-content-center" style="margin-top: 70px; margin-bottom: 70px;">
 	<div class="col-md-8 col-xl-3 chat">
@@ -42,7 +44,7 @@
 		</div>
 	</div>
 
-	<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){}"></iframe>
+	<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="function task(){alert('submitted');}"></iframe>
         <form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSd8rKNkDZIuZL1AXaiBKcbCkMwdv1h8gOqfsQFvGAlITeYVzg/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
           <input type="text"  id="input_msg" name="entry.1205698468" hidden>
           <input type="text"  id="input_sender" name="entry.1569274045" hidden>
@@ -57,7 +59,7 @@
 					<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
 				</div>
 				<textarea name="" id="msg" class="form-control type_msg" onkeyup="inputKey(event)" placeholder="Type your message..."></textarea>
-				<div class="input-group-append">
+				<div class="input-g1roup-append">
 					<button class="btn" type="button" id="myBtn" onclick="submitForm()"><span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span></button>
 				</div>
 			</div>
@@ -69,14 +71,17 @@
 		var lastActivity = urlParams.get('lastActivity');
 		document.getElementById('userName').innerText = capitalizeFirstLetter(urlParams.get('username'));
 		if(urlParams.get('isOnline')=="true"){
-			document.getElementById('status').innerText = capitalizeFirstLetter("online");
-			document.getElementById('onlineIcon').style.color = "#4cd137";
+			document.getElementById('status').innerText = capitalizeFirstLetter("Connecting to the server...");
+			document.getElementById('onlineIcon').style.backgroundColor = "#d3641e";
 		}else{
 			document.getElementById('status').innerText = capitalizeFirstLetter(lastActivity);
 			document.getElementById('onlineIcon').style.backgroundColor = "#c23616";
 		}
 		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
 		
+		document.addEventListener("DOMContentLoaded", function () {
+			setInterval(loadMessages, 500);
+		  });
 		function submitForm() {
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
@@ -86,7 +91,7 @@
 
 			var formData = new FormData(form);
 			generateOutgoingCard(formData.get('entry.1205698468'),formData.get('entry.379296107'),"img/meetme.png");
-			
+
 			if(inp.value !=  ''){
 			  myBtn.disabled = true;
 			  form.submit();
@@ -95,6 +100,7 @@
 			inp.focus();
 			myBtn.disabled = false;
 		  }
+
 		  
 
 		  function inputKey(event){
@@ -208,7 +214,7 @@
 	if(localStorage.getItem("profile_phone") != null){
 		my_phone = localStorage.getItem("profile_phone");
 	}
-    setInterval(loadMessages, 500);
+ 
     function loadMessages(){
       const url = 'https://script.google.com/macros/s/AKfycbzIvqu9R-E20uqLHUPqrmEbhLlHnfkntIjkjx5mOB2aoSQWnjezRVuEyTAzN2Ch86C-UQ/exec';
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
@@ -227,6 +233,10 @@
 			   user_data.push(data_lst[i]);
 		   }
 	   }
+
+	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
+	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
+	   
       for(let i=chatMessages.querySelectorAll('.incoming').length-1;i<user_data.length;i++){
         var incomingCount = chatMessages.querySelectorAll('.incoming').length;
         var messageText = user_data[i].message;
