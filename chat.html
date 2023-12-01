@@ -52,7 +52,7 @@
           <input type="text"  id="input_date" name="entry.1106895308" hidden>
           <input type="text"  id="input_time" name="entry.379296107" hidden>
         </form>
-	<nav class="navbar fixed-bottom" id="msg-input">
+	<nav class="navbar fixed-bottom d-none" id="msg-input">
 		<div class="container-fluid">
 			<div class="input-group">
 				<div class="input-group-prepend">
@@ -236,6 +236,7 @@
 
 	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
 	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
+	   document.getElementById('msg-input').classList.remove('d-none');
 	   
       for(let i=chatMessages.querySelectorAll('.incoming').length-1;i<user_data.length;i++){
         var incomingCount = chatMessages.querySelectorAll('.incoming').length;
