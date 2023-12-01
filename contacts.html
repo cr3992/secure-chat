@@ -111,8 +111,9 @@
             imgElement.src = "img/meetme.png";
             imgElement.className = "rounded-circle user_img";
         
-            var mobile_number = document.createElement("span");
-            mobile_number.className = "text-dark p-2";
+            var mobile_number = document.createElement("p");
+            mobile_number.style = "font-size: 15px;";
+            mobile_number.className = "text-dark";
             mobile_number.textContent = mobileNumber;
         
             imgContainer.appendChild(imgElement);
@@ -121,9 +122,10 @@
             var userInfo = document.createElement("div");
             userInfo.className = "user_info";
         
-            var usernameSpan = document.createElement("span");
+            var usernameSpan = document.createElement("p");
+            usernameSpan.style = "font-size: 15px;font-weight:bold;";
             usernameSpan.className = "text-dark";
-            usernameSpan.textContent = capitalizeFirstLetter(username)+": ";
+            usernameSpan.textContent = capitalizeFirstLetter(username);
         
         
             userInfo.appendChild(usernameSpan);
