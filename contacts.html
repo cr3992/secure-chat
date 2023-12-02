@@ -56,7 +56,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary" onclick="savecontact()">Save</button>
+                  <button type="button" class="btn btn-primary" id="saveBtn" onclick="savecontact()">Save</button>
                 </div>
               </div>
             </div>
@@ -65,13 +65,16 @@
     </div>
     
     <script>
+        document.getElementById('saveBtn').setAttribute('onclick', 'savecontact()');
         function savecontact(){
             var name = document.getElementById("nameInput").value;
             var contact = document.getElementById("contactInput").value;
             var count = localStorage.getItem('contactCount') || 0;
             count++;
-            localStorage.setItem('name' + count, name.trim());
-            localStorage.setItem('contact' + count, contact.trim());
+            var name1 = name.replace(/\s/g, "");
+            var contact1 = contact.replace(/\s/g, "");
+            localStorage.setItem('name' + count, name1);
+            localStorage.setItem('contact' + count, contact1);
             localStorage.setItem('contactCount', count);
             alert("Contact saved!");
             name.value = "";
@@ -98,10 +101,41 @@
             for (var i = 1; i <= count; i++) {
                 var name = localStorage.getItem('name' + i);
                 var contact = localStorage.getItem('contact' + i);
-                generateUserListItem(name, contact);
+                var name_key = 'name'+i;
+                var contact_key = 'contact'+i;
+                generateUserListItem(name, contact, name_key, contact_key);
             }
         }
-        function generateUserListItem(username, mobileNumber) {
+
+        function deleteContact(name, contact){
+           var confirmDelete = confirm("Are you sure to delete?\n"+localStorage.getItem(name)+": "+localStorage.getItem(contact));
+           if(confirmDelete){
+            localStorage.removeItem(name);
+            localStorage.removeItem(contact);
+            localStorage.setItem('contactCount', localStorage.getItem('contactCount') - 1);
+            window.location.reload();
+           }
+        }
+        function editContact(name, contact){
+          var myModal = new bootstrap.Modal(document.getElementById('myModal'));
+          document.getElementById('nameInput').value = localStorage.getItem(name);
+          document.getElementById('contactInput').value = localStorage.getItem(contact);
+          document.getElementById('saveBtn').setAttribute("onclick", "saveEditContact('"+name+"','"+contact+"')");
+          myModal.show();
+        }
+
+        function saveEditContact(nameKey, contactKey){
+          var name = document.getElementById('nameInput').value;
+          var contact = document.getElementById('contactInput').value;
+          var name1 = name.replace(/\s/g, "");
+          var contact1 = contact.replace(/\s/g, "");
+          localStorage.setItem(nameKey, name1);
+          localStorage.setItem(contactKey, contact1);
+          window.location.reload();
+        }
+
+
+        function generateUserListItem(username, mobileNumber, name , contact) {
             var listItem = document.createElement("li");
             var flexContainer = document.createElement("div");
             flexContainer.className = "d-flex bd-highlight bg-light rounded shadow p-2";
@@ -126,23 +160,45 @@
             usernameSpan.style = "font-size: 15px;font-weight:bold;";
             usernameSpan.className = "text-dark";
             usernameSpan.textContent = capitalizeFirstLetter(username);
+
+
+            var editBtn = document.createElement("button");
+            editBtn.className = "btn mx-2";
+            editBtn.style = 'background:transparent;color:#0766AD; font-size: 15px;';
+            editBtn.innerHTML = '<i class="fas fa-edit"></i>';
+            editBtn.onclick = function() {
+                editContact(name, contact);
+            };
+
+            var deleteBtn = document.createElement("button");
+            deleteBtn.className = "btn mx-2";
+            deleteBtn.style = 'background:transparent;color:#0766AD; font-size: 15px;';
+            deleteBtn.innerHTML = '<i class="fas fa-trash"></i>';
+            deleteBtn.onclick = function() {
+                deleteContact(name, contact);
+            };
         
         
             userInfo.appendChild(usernameSpan);
             userInfo.appendChild(mobile_number);
-        
+            
             flexContainer.appendChild(imgContainer);
             flexContainer.appendChild(userInfo);
+            flexContainer.appendChild(editBtn);
+            flexContainer.appendChild(deleteBtn);
         
             listItem.appendChild(flexContainer);
             var contacts = document.getElementById("contacts");
             contacts.appendChild(listItem);
         }
         function capitalizeFirstLetter(str) {
-            return str.split(' ').map(function(word) {
-                return word.charAt(0).toUpperCase() + word.slice(1);
-            }).join(' ');
+          if (str === null || str === undefined) {
+              return '';
           }
+          return str.trim().split(' ').map(function(word) {
+              return word.charAt(0).toUpperCase() + word.slice(1);
+          }).join(' ');
+      }
 
     </script>
 </body>
