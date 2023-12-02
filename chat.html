@@ -33,7 +33,7 @@
 		
 
 	<div class="row justify-content-center" style="margin-top: 70px; margin-bottom: 70px;">
-	<div class="col-md-8 col-xl-3 chat">
+	<div class="col- chat">
 		<div class="card">
 			<div class="card-body msg_card_body chat-messages" id="chat-container">
 				<div class="message incoming">
@@ -79,6 +79,12 @@
 		}
 		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
 		
+		document.addEventListener('DOMContentLoaded', function() {
+			setInterval(function(){
+				loadMessages();
+			},800)
+		  });
+		  
 		
 		function submitForm() {
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
@@ -119,6 +125,7 @@
 		function generateIncomingCard(message, time ,imgUrl) {
 			var container = document.createElement('div');
 			container.classList.add('d-flex', 'justify-content-start', 'mb-4','message','incoming');
+			container.style = "margin-right: 80px;";
 			var imgContainer = document.createElement('div');
 			imgContainer.classList.add('img_cont_msg');
 		
@@ -130,12 +137,15 @@
 		
 			var msgContainer = document.createElement('div');
 			msgContainer.classList.add('msg_cotainer');
+			msgContainer.style.minWidth = "120px";
 		
 			var textNode = document.createTextNode(message);
 		
 			var timeSpan = document.createElement('p');
 			timeSpan.classList.add('msg_time');
 			timeSpan.textContent = time;
+			timeSpan.style.textAlign = "end";
+			
 		
 			msgContainer.appendChild(textNode);
 			msgContainer.appendChild(timeSpan);
@@ -169,9 +179,11 @@
 		function generateOutgoingCard(message, time,imgUrl) {
 			var container = document.createElement('div');
 			container.classList.add('d-flex', 'justify-content-end', 'mb-4','message','incoming');
+			container.style = "margin-left: 80px;";
 		
 			var msgContainerSend = document.createElement('div');
 			msgContainerSend.classList.add('msg_cotainer_send');
+			msgContainerSend.style.minWidth = "120px";
 		
 			var textNode = document.createTextNode(message);
 		
@@ -214,7 +226,7 @@
 	}
  
 	function loadMessages() {
-	const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
+	  const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
       fetch(formUrl)
     .then(response => response.text())
@@ -225,7 +237,7 @@
 		deleteResponses();
 	   var user_data=[];
 	   for(let i=0;i<data_lst.length;i++){
-		   if(data_lst[i].sender!=null){
+		if(data_lst[i].sender!=null){
 			if(typeof data_lst[i].sender === 'number'){
 				data_lst[i].sender = data_lst[i].sender.toString();
 			}
@@ -242,7 +254,7 @@
 		   if(data_lst[i].sender.trim() == my_phone.trim() && data_lst[i].receiver.trim() == urlParams.get('mobileNumber').trim()){
 			   user_data.push(data_lst[i]);
 		   }
-		   }
+		}
 	   }
 	   
 
@@ -275,16 +287,12 @@
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 			}
           }
+		  checkOnline();
       }
     }).catch(error => console.error('Error fetching form responses:', error)); 
   }
 
-  document.addEventListener('DOMContentLoaded', function() {
-	setInterval(function(){
-		loadMessages();
-	},800)
-  });
-  
+
   function deleteResponses(){
 	fetch('https://script.google.com/macros/s/AKfycbxpMbUtvlOvfaXJMsbXNn12C-iVEhbP04ozhssTKHC7VginKKc6csqxDcsFxeDfQU0p/exec', {
 		method: 'GET',
@@ -292,6 +300,18 @@
 	})
 		.then(response => {
 		console.log('Delete successful:');
+		})
+		.catch(error => {
+		console.error('Error:', error);
+		});
+}
+  function checkOnline(){
+	fetch('https://script.google.com/macros/s/AKfycbzIvqu9R-E20uqLHUPqrmEbhLlHnfkntIjkjx5mOB2aoSQWnjezRVuEyTAzN2Ch86C-UQ/exec', {
+		method: 'GET',
+		mode: 'no-cors' // Set to 'no-cors' to make a request without expecting a response
+	})
+		.then(response => {
+		console.log('login successful:',response);
 		})
 		.catch(error => {
 		console.error('Error:', error);
