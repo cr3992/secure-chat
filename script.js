@@ -26,7 +26,7 @@ function generateUserListItem(username, imageUrl, lastActivity, isOnline,mobileN
     if(isOnline ? "online" : "offline" == "online"){
         lastActivityP.textContent = "Online";
     }else{
-        lastActivityP.textContent = capitalizeFirstLetter(username)+" left " + lastActivity;
+        lastActivityP.textContent = lastActivity;
     }
 
     userInfo.appendChild(usernameSpan);
