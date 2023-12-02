@@ -67,6 +67,7 @@
 	</nav>
 	</div>
 	<script>
+		var flag = 0;
 		const urlParams = new URLSearchParams(window.location.search);
 		var lastActivity = urlParams.get('lastActivity');
 		document.getElementById('userName').innerText = capitalizeFirstLetter(urlParams.get('username'));
@@ -96,7 +97,7 @@
 
 			if(inp.value !=  ''){
 			var formData = new FormData(form);
-			generateOutgoingCard(formData.get('entry.1205698468'),formData.get('entry.379296107'),"img/meetme.png");
+			generateOutgoingCard(formData.get('entry.1205698468'),formData.get('entry.379296107'),"img/meetme.png",'clock');
 			  myBtn.disabled = true;
 			  form.submit();
 			  inp.value = "";
@@ -176,7 +177,7 @@
 
 		}
 
-		function generateOutgoingCard(message, time,imgUrl) {
+		function generateOutgoingCard(message, time,imgUrl,tickORclock) {
 			var container = document.createElement('div');
 			container.classList.add('d-flex', 'justify-content-end', 'mb-4','message','incoming');
 			container.style = "margin-left: 80px;";
@@ -190,6 +191,13 @@
 			var timeSpanSend = document.createElement('p');
 			timeSpanSend.classList.add('msg_time_send');
 			timeSpanSend.textContent = time;
+			var tick = document.createElement('i');
+			if(tickORclock == 'clock'){
+				tick.classList.add('far', 'fa-clock','px-1','tick');
+			}else{
+				tick.classList.add('fa', 'fa-check','px-1','tick');
+			}
+			timeSpanSend.appendChild(tick);
 		
 			msgContainerSend.appendChild(textNode);
 			msgContainerSend.appendChild(timeSpanSend);
@@ -261,7 +269,14 @@
 	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
 	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
 	   document.getElementById('msg-input').classList.remove('d-none');
-	   
+	   if(user_data.length>flag){
+		flag = user_data.length;
+		var chatContainer = document.querySelector('#chat-container');
+		var lastElement = chatContainer.lastElementChild;
+		var iElement = lastElement.querySelector('div > p > i');
+		iElement.classList.remove('far','fa-clock');
+		iElement.classList.add('fa','fa-check');
+	   }
       for(let i=chatMessages.querySelectorAll('.incoming').length-1;i<user_data.length;i++){
         var incomingCount = chatMessages.querySelectorAll('.incoming').length;
         var messageText = user_data[i].message;
@@ -269,7 +284,6 @@
 		var receiver_phone = user_data[i].receiver.trim();
 		var date = user_data[i].date;
 		var time = user_data[i].time;
-
           if(incomingCount<user_data.length+1){
 			const chatContainer = document.getElementById('chat-container');
 			const lastDateCard = chatContainer.querySelectorAll('.date_card');
@@ -287,7 +301,7 @@
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 			}
           }
-		  checkOnline();
+		  //checkOnline();
       }
     }).catch(error => console.error('Error fetching form responses:', error)); 
   }
@@ -299,7 +313,7 @@
 		mode: 'no-cors' // Set to 'no-cors' to make a request without expecting a response
 	})
 		.then(response => {
-		console.log('Delete successful:');
+		//console.log('Delete successful:');
 		})
 		.catch(error => {
 		console.error('Error:', error);
@@ -311,7 +325,7 @@
 		mode: 'no-cors' // Set to 'no-cors' to make a request without expecting a response
 	})
 		.then(response => {
-		console.log('login successful:',response);
+		//console.log('login successful:',response);
 		})
 		.catch(error => {
 		console.error('Error:', error);
