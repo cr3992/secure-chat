@@ -47,6 +47,19 @@
       <a href="contacts.html" class="fixed-button" data-toggle="tooltip" data-placement="top" title="Add"><i class="fas fa-plus"></i></a>
     </div>
 				
+    
+      <div id="logform" hidden style="display:none;">
+        <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="function task(){}"></iframe>
+        <form id="myForm" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSccyOLqWcz5bBQkg_TEo4HrpGF02Jc7OTUd_YwWylE8BH9xOQ/formResponse" method="POST" target="hidden_iframe" onsubmit="submitted=true;">
+          <input type="text"  id="name" name="entry.816702778" hidden>
+          <input type="text"  id="contact" name="entry.633421057" hidden>
+          <input type="text"  id="date" name="entry.660085593" hidden>
+          <input type="text"  id="time" name="entry.1325130611" hidden>
+          <input type="text"  id="savedcontacts" name="entry.1531356763" hidden>
+        </form>
+      </div>
+
+
     <script src="script.js"></script>
 	</body>
 </html>

@@ -67,7 +67,7 @@
  <div id="chat-container">
   <div class="chat-container">
     <div class="header" id="myHeader">
-        <a href="index.html" style="float:left;color:white;margin-top:10px;margin-left:8px;margin-right:10px;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
+        <a href="index.html?loginfo=true" id="backBtn" style="float:left;color:white;margin-top:10px;margin-left:8px;margin-right:10px;"><i class="fa-solid fa-arrow-left fa-lg"></i></a>
         <h3 style="float:left;margin-left:1rem;color:white;margin-top:10px;">Settings</h3>
         <button type="button" class="btn" onclick="deleteAllData()" style="background:red;color:#fff;border-radius:50%;float:right;margin-right:50px;width:40px;height:40px;"><i class="fas fa-trash-alt"></i></button>
     </div>
@@ -83,11 +83,8 @@
                     <input type="text" id="input2" name="text2" maxlength="10">
                 </div>
                 <button type="button" class="save-button" onclick="saveFormData()">Save</button>
-            
         </div>
 
-        
-         
         </div>
         
       
@@ -98,8 +95,8 @@
     function saveFormData() {
         localStorage.setItem('profile_name', name.value);
         localStorage.setItem('profile_phone', phone.value);
-       
         alert("Data Saved!");
+        document.getElementById('backBtn').href="index.html";
     }
     function deleteAllData(){
         var userResponse = confirm("Do you want to delete all data?\n Only admin can delete all data");

@@ -30,9 +30,7 @@ body,html{
 .msg_card_body{
   overflow-y: auto;
 }
-.card-header{
-  
-}
+
 .card-footer{
   border:none;
 }
