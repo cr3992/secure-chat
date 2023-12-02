@@ -1,6 +1,5 @@
 body,html{
   background-color: #0766AD !important;
-  /*background: linear-gradient(170deg, rgba(77, 74, 138, 0.585) 0%, rgba(126, 111, 204, 0.651) 35%, rgb(116, 80, 202) 100%);*/
   
 }
 
@@ -18,7 +17,6 @@ body,html{
   margin-bottom: auto;
 }
 .card{
- /* background-color: rgba(0,0,0,0.4) !important;*/
     background: transparent;
     border:none;
 
@@ -33,13 +31,9 @@ body,html{
   overflow-y: auto;
 }
 .card-header{
-  /*border-radius: 15px 15px 0 0 !important;
-  border-bottom: 0 !important;*/
   
 }
 .card-footer{
-  /*border-radius: 0 0 15px 15px !important;
-  border-top: 0 !important;*/
   border:none;
 }
 .container{
@@ -79,7 +73,6 @@ background-color: rgba(0,0,0,0.3) !important;
 }
 .send_btn{
 border-radius: 0 15px 15px 0 !important;
-/*background-color: rgba(0,0,0,0.3) !important;*/
 background-color: transparent;
   border:0 !important;
   color: white !important;
@@ -116,10 +109,9 @@ li:active,li:hover{
 
 }
 .user_img_msg{
-  height: 40px;
-  width: 40px;
+  height: 20px;
+  width:20px;
   border:1.5px solid #f5f6fa;
-
 }
 .back_btn{
   margin-right: 20px;
@@ -132,8 +124,8 @@ li:active,li:hover{
   width: 60px;
 }
 .img_cont_msg{
-  height: 40px;
-  width: 40px;
+  height: 20px;
+  width: 20px;
 }
 .online_icon{
 position: absolute;
@@ -174,14 +166,28 @@ margin-right: 20px;
 .msg_cotainer{
 margin-top: auto;
 margin-bottom: auto;
-margin-left: 10px;
-border-radius: 30px;
+margin-left: 5px;
+border-radius: 15px;
+border-top-left-radius: 0px;
 background-color: #82ccdd;
 padding-left: 20px;
 padding-right: 20px;
 padding-top: 10px;
 position: relative;
 }
+.msg_cotainer::after{
+  content: "";
+  margin-top: 5px;
+  position: absolute;
+  top: 0;
+  left: -12px;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-right-color: #82ccdd;
+  border-bottom-color: #82ccdd;
+}
+
 
 .date_card{
   background-color: #6e649e !important;
@@ -194,25 +200,37 @@ position: relative;
 .msg_cotainer_send{
 margin-top: auto;
 margin-bottom: auto;
-margin-right: 10px;
-border-radius: 30px;
+margin-right: 5px;
+border-radius: 15px;
+border-top-right-radius: 0px;
 background-color: #78e08f;
 padding-left: 20px;
 padding-right: 20px;
 padding-top: 10px;
 position: relative;
 }
+.msg_cotainer_send::after{
+  content: "";
+  margin-top: 5px;
+  position: absolute;
+  top: 0;
+  right: -12px;
+  width: 0;
+  height: 0;
+  border: 12px solid transparent;
+  border-left-color: #78e08f;
+  border-bottom-color: #78e08f;
+}
+
 .msg_time{
   color: rgb(102, 99, 99);
   font-size: 10px;
-  width: 70px;
   height: 10px;
   text-align: end;
 }
 .msg_time_send{
 color: rgb(102, 99, 99);
 font-size: 10px;
-width: 70px;
 height: 10px;
 text-align: end;
 }
