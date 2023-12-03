@@ -108,7 +108,6 @@
 			inp.focus();
 			myBtn.disabled = false;
 		  }
-
 		  function videoCallRequest(){
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
@@ -324,7 +323,7 @@
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
-					window.location.href = "incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+					window.location.href = "incomingCall.html?room="+receiver_phone+"&mobileNumber="+sender_phone+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 				}
 			}
           }
