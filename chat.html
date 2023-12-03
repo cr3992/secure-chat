@@ -112,7 +112,7 @@
 		  function videoCallRequest(){
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
-			document.getElementById("videoCall").value = "outgoing";
+			document.getElementById("videoCall").value = "requestcall";
 			var form = document.getElementById("myForm");
 			var inp = document.getElementById("input_msg").value='video call';
 			if(localStorage.getItem("profile_phone") != null){
@@ -243,13 +243,13 @@
 			lastElement.scrollIntoView({ behavior: 'smooth' });
 		}
 		function capitalizeFirstLetter(str) {
-          if (str === null || str === undefined) {
-              return '';
-          }
-          return str.trim().split(' ').map(function(word) {
-              return word.charAt(0).toUpperCase() + word.slice(1);
-          }).join(' ');
-      }
+			if (str === null || str === undefined) {
+				return '';
+			}
+			return str.trim().split(' ').map(function(word) {
+				return word.charAt(0).toUpperCase() + word.slice(1);
+			}).join(' ');
+		}
 
 
 	const chatMessages = document.querySelector('.chat-messages');
@@ -324,6 +324,7 @@
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
+					console.log("call request");
 					window.location.href = "incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 				}
 			}
