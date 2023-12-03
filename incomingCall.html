@@ -92,7 +92,7 @@
     <p  id="number"></p>
   </div>
   <a id="pick" class="btn btn-success btn-pick"><i class="fas fa-phone animation"></i></a>
-  <a id="reject" class="btn btn-danger btn-reject"><i class="fas fa-phone-slash"></i> </a>
+  <a id="reject" href="index.html?loginfo=true" class="btn btn-danger btn-reject"><i class="fas fa-phone-slash"></i> </a>
   
 </div>
 
@@ -106,10 +106,8 @@
     const name = urlParams.get('username');
     const number = urlParams.get('room');
     document.getElementById('pick').href = "vidcall.html?room="+urlParams.get('room')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
-    document.getElementById('reject').href = 'index.html?loginfo=true';
     document.getElementById('name').innerText = capitalizeFirstLetter(name);
     document.getElementById('number').innerText = number;
-
     function playRingtone() {
     var ringtone = document.getElementById('ringtone');
     ringtone.play();
