@@ -104,7 +104,10 @@ function padZero(num) {
   return (num < 10 ? '0' : '') + num;
 }
 function capitalizeFirstLetter(str) {
-    return str.split(' ').map(function(word) {
-        return word.charAt(0).toUpperCase() + word.slice(1);
-    }).join(' ');
+  if (str === null || str === undefined) {
+      return '';
   }
+  return str.trim().split(' ').map(function(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' ');
+}

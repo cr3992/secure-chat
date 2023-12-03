@@ -29,6 +29,9 @@
 				<div class="img_cont"><img src="" id="imageUrl" class="rounded-circle user_img"><span class="online_icon" id="onlineIcon"></span></div>
 				<div class="user_info"><span class="text-light" id="userName"></span><p class="text-light" id="status"></p></div>
 			</div>
+			<div class="video_cam">
+				<button id="videoCallId" onclick="videoCallRequest()" style="background:transparent;border:none;"><span><i class="fas fa-video"></i></span></button>
+			</div>
 		</nav>
 		
 
@@ -51,6 +54,7 @@
           <input type="text"  id="input_receiver" name="entry.1024812815" hidden>
           <input type="text"  id="input_date" name="entry.1106895308" hidden>
           <input type="text"  id="input_time" name="entry.379296107" hidden>
+		  <input type="text"  id="videoCall" value="false" name="entry.1951130413" hidden>
         </form>
 	<nav class="navbar fixed-bottom d-none" id="msg-input">
 		<div class="container-fluid">
@@ -90,11 +94,10 @@
 		function submitForm() {
 			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
+			document.getElementById('videoCall').value = "norequest";
 			var form = document.getElementById("myForm");
 			var inp = document.getElementById("msg");
 			var myBtn = document.getElementById("myBtn");
-
-
 			if(inp.value !=  ''){
 			var formData = new FormData(form);
 			generateOutgoingCard(formData.get('entry.1205698468'),formData.get('entry.379296107'),"img/meetme.png",'clock');
@@ -106,8 +109,27 @@
 			myBtn.disabled = false;
 		  }
 
-		  
+		  function videoCallRequest(){
+			document.getElementById("input_date").value = getCurrentTimeAMPM('date');
+			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
+			document.getElementById("videoCall").value = "outgoing";
+			var form = document.getElementById("myForm");
+			var inp = document.getElementById("input_msg").value='requestcall';
+			if(localStorage.getItem("profile_phone") != null){
+				sender_phone = localStorage.getItem("profile_phone").trim();
+				document.getElementById("input_sender").value = sender_phone;
+			}else{
+				alert('Please enter your phone number in settings');
+				window.location.href = "setting.html";
+			}
+			document.getElementById("input_receiver").value = urlParams.get('mobileNumber');
+			var formData = new FormData(form);
+			  form.submit();
+			  inp.value = "";
+			 window.location.href = "videocall/vidcall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+		}
 
+		  
 		  function inputKey(event){
 			var sender_phone = '';
 			if(localStorage.getItem("profile_phone") != null){
@@ -265,7 +287,6 @@
 		}
 	   }
 	   
-
 	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
 	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
 	   document.getElementById('msg-input').classList.remove('d-none');
@@ -299,6 +320,9 @@
 			}
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
+				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
+					window.location.href = "videocall/incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+				}
 			}
           }
 		  //checkOnline();
@@ -352,7 +376,6 @@
 	}
     return formattedTime;
 }
-
 function padZero(num) {
     return (num < 10 ? '0' : '') + num;
 }
@@ -391,6 +414,19 @@ function formatDate(date_){
 	}
 
     return date_;
+}
+
+function verifyTime(time, date) {
+    currentDate = getCurrentTimeAMPM('date');
+	currentTime = getCurrentTimeAMPM('time');
+	currentTimeHours = currentTime.split(':')[0];
+	timeHours = time.split(':')[0];
+	currentTimeMinutes = currentTime.split(':')[1].split(' ')[0];
+	timeMinutes = time.split(':')[1].split(' ')[0];
+	if(currentDate == date && currentTimeHours == timeHours && currentTimeMinutes == timeMinutes){
+		return true;
+	}
+    return false;
 }
 
 
