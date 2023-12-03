@@ -324,7 +324,6 @@
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
-					console.log("call request");
 					window.location.href = "incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 				}
 			}
