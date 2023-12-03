@@ -114,7 +114,7 @@
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
 			document.getElementById("videoCall").value = "outgoing";
 			var form = document.getElementById("myForm");
-			var inp = document.getElementById("input_msg").value='requestcall';
+			var inp = document.getElementById("input_msg").value='video call';
 			if(localStorage.getItem("profile_phone") != null){
 				sender_phone = localStorage.getItem("profile_phone").trim();
 				document.getElementById("input_sender").value = sender_phone;
@@ -126,7 +126,7 @@
 			var formData = new FormData(form);
 			  form.submit();
 			  inp.value = "";
-			 window.location.href = "videocall/vidcall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+			 window.location.href = "vidcall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 		}
 
 		  
@@ -321,7 +321,7 @@
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
 				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
-					window.location.href = "videocall/incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+					window.location.href = "incomingCall.html?room="+urlParams.get('mobileNumber')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 				}
 			}
           }
