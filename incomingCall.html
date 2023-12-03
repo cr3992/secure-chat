@@ -104,8 +104,8 @@
 <script>
     const urlParams = new URLSearchParams(window.location.search);
     const name = urlParams.get('username');
-    const number = urlParams.get('room');
-    document.getElementById('pick').href = "vidcall.html?room="+number+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
+    const number = urlParams.get('mobileNumber');
+    document.getElementById('pick').href = "vidcall.html?room="+urlParams.get('room')+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
     document.getElementById('name').innerText = capitalizeFirstLetter(name);
     document.getElementById('number').innerText = number;
 
