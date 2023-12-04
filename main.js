@@ -56,6 +56,7 @@ let init = async () => {
 let handleUserLeft = (MemberId) => {
     document.getElementById('user-2').style.display = 'none'
     document.getElementById('user-1').classList.remove('smallFrame')
+    window.location.href = 'index.html?loginfo=true'
 }
 
 let handleMessageFromPeer = async (message, MemberId) => {
