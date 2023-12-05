@@ -30,7 +30,7 @@
 				<div class="user_info"><span class="text-light" id="userName"></span><p class="text-light" id="status"></p></div>
 			</div>
 			<div class="video_cam">
-				<button id="videoCallId" onclick="videoCallRequest()" style="background:transparent;border:none;"><span><i class="fas fa-video"></i></span></button>
+				<button id="videoCallId" class="btn d-none" onclick="videoCallRequest()" style="background:transparent;border:none;"><span><i class="fas fa-video"></i></span></button>
 			</div>
 		</nav>
 		
@@ -293,6 +293,7 @@
 	   document.getElementById('status').innerText = capitalizeFirstLetter("online");
 	   document.getElementById('onlineIcon').style.backgroundColor = "#4cd137";
 	   document.getElementById('msg-input').classList.remove('d-none');
+	   document.getElementById('videoCallId').classList.remove('d-none');
 	   if(user_data.length>flag){
 		flag = user_data.length;
 		var chatContainer = document.querySelector('#chat-container');
@@ -323,7 +324,7 @@
 			}
 			if(sender_phone.trim() == urlParams.get('mobileNumber').trim() && receiver_phone.trim() == my_phone.trim()){
 				generateIncomingCard(messageText,time,urlParams.get('imageUrl'));
-				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date) == true){
+				if(user_data[i].incomingCall == "requestcall" && verifyTime(user_data[i].time,user_data[i].date,user_data[i].Timestamp) == true){
 					window.location.href = "incomingCall.html?room="+receiver_phone+"&mobileNumber="+sender_phone+"&username="+urlParams.get('username')+"&imageUrl="+urlParams.get('imageUrl')+"&isOnline="+urlParams.get('isOnline')+"&lastActivity="+urlParams.get('lastActivity');
 				}
 			}
@@ -419,14 +420,17 @@ function formatDate(date_){
     return date_;
 }
 
-function verifyTime(time, date) {
+function verifyTime(time, date, timestampString) {
     currentDate = getCurrentTimeAMPM('date');
 	currentTime = getCurrentTimeAMPM('time');
 	currentTimeHours = currentTime.split(':')[0];
 	timeHours = time.split(':')[0];
 	currentTimeMinutes = currentTime.split(':')[1].split(' ')[0];
 	timeMinutes = time.split(':')[1].split(' ')[0];
-	if(currentDate == date && currentTimeHours == timeHours && currentTimeMinutes == timeMinutes){
+	const seconds = timestampString.split(':')[2].split('.')[0];
+	var currentDate_ = new Date();
+	var currentSeconds = currentDate_.getSeconds();
+	if(currentDate == date && currentTimeHours == timeHours && currentTimeMinutes == timeMinutes && currentSeconds-seconds<10){
 		return true;
 	}
     return false;
