@@ -117,7 +117,7 @@
 			if(localStorage.getItem("profile_phone") != null){
 				sender_phone = localStorage.getItem("profile_phone").trim();
 				document.getElementById("input_sender").value = sender_phone;
-				inp.value = capitalizeFirstLetter(localStorage.getItem("profile_phone").trim())+' started video call';
+				inp.value = capitalizeFirstLetter(localStorage.getItem("profile_name").trim())+' started video call';
 			}else{
 				alert('Please enter your phone number in settings');
 				window.location.href = "setting.html";
