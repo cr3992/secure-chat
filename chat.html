@@ -113,10 +113,11 @@
 			document.getElementById("input_time").value = getCurrentTimeAMPM('time');
 			document.getElementById("videoCall").value = "requestcall";
 			var form = document.getElementById("myForm");
-			var inp = document.getElementById("input_msg").value='video call';
+			var inp = document.getElementById("input_msg");
 			if(localStorage.getItem("profile_phone") != null){
 				sender_phone = localStorage.getItem("profile_phone").trim();
 				document.getElementById("input_sender").value = sender_phone;
+				inp.value = capitalizeFirstLetter(localStorage.getItem("profile_phone").trim())+' started video call';
 			}else{
 				alert('Please enter your phone number in settings');
 				window.location.href = "setting.html";
