@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Chat</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+		<link rel="stylesheet" href="style.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="importmap">
+            {
+              "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+              }
+            }
+          </script>
+		<style>
+			body{
+				overflow-y: auto;
+			}
+		</style>
+		
+</head>
+<body>
+	<div class="container-fluid">
+		<nav class="navbar navbar-expand-lg fixed-top shadow" id="nav">
+			<div class="d-flex align-items-center">
+				<a href="index.html?loginfo=true" class="nav-link text-light"><i class="fas fa-arrow-left"></i></a>
+				<div class="img_cont"><img src="img/gemini.jpeg" id="imageUrl" class="rounded-circle user_img"><span class="online_icon" id="onlineIcon"></span></div>
+				<div class="user_info"><span class="text-light" id="userName">Gemini-Pro</span><p class="text-light" id="status">Online</p></div>
+			</div>
+			<div class="video_cam">
+				<button class="btn" onclick="apiKeySetting()" style="background:transparent;border:none;"><span><i class="fas fa-cog"></i></span></button>
+			</div>
+		</nav>
+		
+
+	<div class="row justify-content-center" style="margin-top: 70px; margin-bottom: 70px;">
+	<div class="col-12 chat">
+		<div class="card">
+			<div class="card-body msg_card_body chat-messages" id="chat-container">
+				<div class="message incoming">
+				</div>
+			</div>
+			
+		</div>
+		</div>
+	</div>
+
+	<nav class="navbar fixed-bottom" id="msg-input">
+		<div class="container-fluid">
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text attach_btn"><i class="fas fa-paperclip"></i></span>
+				</div>
+				<textarea name="" id="msg" class="form-control type_msg" placeholder="Type your message..."></textarea>
+				<div class="input-g1roup-append">
+					<button class="btn" type="button" id="myBtn" onclick="submitPrompt()"><span class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></span></button>
+				</div>
+			</div>
+		</div>
+	</nav>
+	</div>
+	<script>
+        const inp = document.getElementById("msg");
+        const myBtn = document.getElementById("myBtn");
+        if (localStorage.getItem("apikey")==null){
+            alert("Please set your api key in setting");
+        }
+		function submitPrompt() {
+            var promptMsg = inp.value;
+			if(promptMsg !=  ''){
+                var current_time = getCurrentTimeAMPM('time');
+                generateOutgoingCard(promptMsg,current_time,"img/meetme.png",'tick');
+                myBtn.disabled = true;
+                inp.value = "";
+                document.getElementById("status").innerText = "typing...";
+                getMessage(promptMsg);
+			}
+		  }
+		  function apiKeySetting(){
+            window.location.href="setting.html";
+		}
+
+		  
+		 
+		function generateIncomingCard(message, time ,imgUrl) {
+			var container = document.createElement('div');
+			container.classList.add('d-flex', 'justify-content-start', 'mb-4','message','incoming');
+			container.style = "margin-right: 80px;";
+			var imgContainer = document.createElement('div');
+			imgContainer.classList.add('img_cont_msg');
+		
+			var img = document.createElement('img');
+			img.src = imgUrl;
+			img.classList.add('rounded-circle', 'user_img_msg');
+		
+			imgContainer.appendChild(img);
+		
+			var msgContainer = document.createElement('div');
+			msgContainer.classList.add('msg_cotainer');
+			msgContainer.style.minWidth = "120px";
+		
+			var textNode = document.createTextNode(message);
+		
+			var timeSpan = document.createElement('p');
+			timeSpan.classList.add('msg_time');
+			timeSpan.textContent = time;
+			timeSpan.style.textAlign = "end";
+			
+		
+			msgContainer.appendChild(textNode);
+			msgContainer.appendChild(timeSpan);
+		
+			container.appendChild(imgContainer);
+			container.appendChild(msgContainer);
+		
+			var incomingMsg = document.getElementById('chat-container');
+			incomingMsg.appendChild(container);
+			var chatContainer = document.querySelector('#chat-container');
+			var lastElement = chatContainer.lastElementChild;
+			lastElement.scrollIntoView({ behavior: 'smooth' });
+		}
+
+
+		function generateOutgoingCard(message, time,imgUrl,tickORclock) {
+			var container = document.createElement('div');
+			container.classList.add('d-flex', 'justify-content-end', 'mb-4','message','incoming');
+			container.style = "margin-left: 80px;";
+		
+			var msgContainerSend = document.createElement('div');
+			msgContainerSend.classList.add('msg_cotainer_send');
+			msgContainerSend.style.minWidth = "120px";
+		
+			var textNode = document.createTextNode(message);
+		
+			var timeSpanSend = document.createElement('p');
+			timeSpanSend.classList.add('msg_time_send');
+			timeSpanSend.textContent = time;
+			var tick = document.createElement('i');
+			if(tickORclock == 'clock'){
+				tick.classList.add('far', 'fa-clock','px-1','tick');
+			}else{
+				tick.classList.add('fa', 'fa-check','px-1','tick');
+			}
+			timeSpanSend.appendChild(tick);
+		
+			msgContainerSend.appendChild(textNode);
+			msgContainerSend.appendChild(timeSpanSend);
+		
+			var imgContainerMsg = document.createElement('div');
+			imgContainerMsg.classList.add('img_cont_msg');
+		
+			var imgMsg = document.createElement('img');
+			imgMsg.src = imgUrl; 
+			imgMsg.classList.add('rounded-circle', 'user_img_msg');
+		
+			imgContainerMsg.appendChild(imgMsg);
+		
+			container.appendChild(msgContainerSend);
+			container.appendChild(imgContainerMsg);
+		
+			var outgoingMsg = document.getElementById('chat-container');
+			outgoingMsg.appendChild(container);
+			var chatContainer = document.querySelector('#chat-container');
+			var lastElement = chatContainer.lastElementChild;
+			lastElement.scrollIntoView({ behavior: 'smooth' });
+		}
+
+
+    async function getMessage(promptQuery){
+        const apiKey = localStorage.getItem('apikey');
+        if (!apiKey) {
+            alert('Please provide a valid API key.');
+            return;
+        }
+        try {
+        const { GoogleGenerativeAI } = await import('@google/generative-ai');
+        const genAI = new GoogleGenerativeAI(apiKey);
+        const model = genAI.getGenerativeModel({ model: "gemini-pro" });
+        const prompt = promptQuery.trim();
+        if (!prompt) {
+            alert('Please enter a prompt before sending.');
+            return;
+        }
+        
+        const result = await model.generateContent(prompt);
+        const response = await result.response;
+        const text = await response.text();
+        document.getElementById("status").innerText = "Online";
+        messageText = parseMarkdownToHtml(text);
+        generateIncomingCard(messageText,getCurrentTimeAMPM('time'),'img/gemini.jpeg');
+        myBtn.disabled = false;
+        } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred. Please check the console for details.');
+        }
+    }
+
+
+        function parseMarkdownToHtml(markdownText) {
+            const htmlText = markdownText
+              .replace(/^# (.+)$/gm, '<h1>$1</h1>')
+              .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+              .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+              .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+              .replace(/\*(.+?)\*/g, '<em>$1</em>')
+              .replace(/^- (.+)$/gm, '<li>$1</li>')
+              .replace(/<\/li><li>/g, '</li><li>')
+              .replace(/(?:\r\n|\r|\n)/g, '<br>');
+        
+            return htmlText;
+          }
+
+        function getCurrentTimeAMPM(dateORtime) {
+            var currentDate = new Date();
+
+            var hours = currentDate.getHours();
+            var minutes = currentDate.getMinutes();
+            var seconds = currentDate.getSeconds();
+
+            var ampm = hours >= 12 ? 'pm' : 'am';
+
+            // Convert 24-hour format to 12-hour format
+            hours = hours % 12;
+            hours = hours ? hours : 12; // If hours is 0, set it to 12
+
+            var formattedTime = padZero(hours) + ':' + padZero(minutes) +' '+ ampm;
+            if(dateORtime=='date'){
+                return currentDate.getDate() + '/' + (currentDate.getMonth()+1) + '/' + currentDate.getFullYear();
+            }
+            return formattedTime;
+        }
+        function padZero(num) {
+            return (num < 10 ? '0' : '') + num;
+        }
+
+
+
+	</script>
+</body>
+</html>
