@@ -108,15 +108,14 @@
 			msgContainer.classList.add('msg_cotainer');
 			msgContainer.style.minWidth = "120px";
 		
-			var textNode = document.createTextNode(message);
+            msgContainer.innerHTML = message;
 		
 			var timeSpan = document.createElement('p');
 			timeSpan.classList.add('msg_time');
 			timeSpan.textContent = time;
 			timeSpan.style.textAlign = "end";
 			
-		
-			msgContainer.appendChild(textNode);
+	
 			msgContainer.appendChild(timeSpan);
 		
 			container.appendChild(imgContainer);
