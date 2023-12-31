@@ -84,6 +84,13 @@
                 </div>
                 <button type="button" class="save-button" onclick="saveFormData()">Save</button>
         </div>
+        <div class="form-container">
+                <h3 style="text-align:center;">Gemini-Pro Api Key</h3>
+                <div class="form-group">
+                    <input type="text" id="input3" name="apikey">
+                </div>
+                <button type="button" class="save-button" onclick="saveApiKey()">Save</button>
+        </div>
 
         </div>
         
@@ -92,12 +99,18 @@
 <script>
     const name = document.getElementById('input1');
     const phone = document.getElementById('input2');
+    const apiKey = document.getElementById('input3');
     function saveFormData() {
         localStorage.setItem('profile_name', name.value);
         localStorage.setItem('profile_phone', phone.value);
         alert("Data Saved!");
         document.getElementById('backBtn').href="index.html";
     }
+    function saveApiKey(){
+        localStorage.setItem('apikey', document.getElementById('input3').value);
+        alert("Api Key Saved!");
+    }
+
     function deleteAllData(){
         var userResponse = confirm("Do you want to delete all data?\n Only admin can delete all data");
         if (userResponse) {
@@ -109,6 +122,9 @@
         if (localStorage.getItem("profile_name")!=null){
             name.value = localStorage.getItem("profile_name");
             phone.value = localStorage.getItem("profile_phone");
+        }
+        if (localStorage.getItem("apikey")!=null){
+            apiKey.value = localStorage.getItem("apikey");
         }
     }
     
