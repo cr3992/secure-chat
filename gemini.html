@@ -25,6 +25,7 @@
 			body{
 				overflow-y: auto;
 			}
+			
 		</style>
 		
 </head>
@@ -44,8 +45,8 @@
 
 	<div class="row justify-content-center" style="margin-top: 70px; margin-bottom: 70px;">
 	<div class="col-12 chat">
-		<div class="card">
-			<div class="card-body msg_card_body chat-messages" id="chat-container">
+		<div class="row">
+			<div class="col-12 msg_card_body chat-messages mt-4" id="chat-container">
 				<div class="message incoming">
 				</div>
 			</div>
@@ -95,7 +96,7 @@
 		function generateIncomingCard(message, time ,imgUrl) {
 			var container = document.createElement('div');
 			container.classList.add('d-flex', 'justify-content-start', 'mb-4','message','incoming');
-			container.style = "margin-right: 80px;";
+			container.style = "margin-right: 30px;";
 			var imgContainer = document.createElement('div');
 			imgContainer.classList.add('img_cont_msg');
 		
@@ -133,7 +134,7 @@
 		function generateOutgoingCard(message, time,imgUrl,tickORclock) {
 			var container = document.createElement('div');
 			container.classList.add('d-flex', 'justify-content-end', 'mb-4','message','incoming');
-			container.style = "margin-left: 80px;";
+			container.style = "margin-left: 30px;";
 		
 			var msgContainerSend = document.createElement('div');
 			msgContainerSend.classList.add('msg_cotainer_send');
