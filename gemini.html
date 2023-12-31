@@ -73,6 +73,7 @@
         const myBtn = document.getElementById("myBtn");
         if (localStorage.getItem("apikey")==null){
             alert("Please set your api key in setting");
+            apiKeySetting();
         }
 		function submitPrompt() {
             var promptMsg = inp.value;
@@ -199,7 +200,8 @@
         myBtn.disabled = false;
         } catch (error) {
         console.error('Error:', error);
-        alert('An error occurred. Please check the console for details.');
+        alert('An error occurred. Please check your API key.');
+        apiKeySetting();
         }
     }
 
