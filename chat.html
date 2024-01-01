@@ -14,6 +14,7 @@
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.js"></script>
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	        <script src="script.js"></script>
 		<style>
 			body{
 				overflow-y: auto;
@@ -83,7 +84,7 @@
 			document.getElementById('onlineIcon').style.backgroundColor = "#c23616";
 		}
 		document.getElementById('imageUrl').src = urlParams.get('imageUrl');
-		
+		const url = localStorage.getItem('uri');
 		document.addEventListener('DOMContentLoaded', function() {
 			setInterval(function(){
 				loadMessages();
@@ -259,7 +260,6 @@
 	}
  
 	function loadMessages() {
-	  const url = 'https://script.google.com/macros/s/AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec'
       const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
       fetch(formUrl)
     .then(response => response.text())
