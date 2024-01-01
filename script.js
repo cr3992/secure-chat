@@ -40,7 +40,7 @@ function generateUserListItem(username, imageUrl, lastActivity, isOnline,mobileN
     var contacts = document.getElementById("contacts");
     contacts.appendChild(anchor);
 }
-
+const uril = "AKfycbyLhlLQQafeUBaWw6uWkELjulIiE-Fo9luj_NkeIZcluON6N2xqHnWNhcEnP4bEGKNgiQ/exec";
 function loadSavedContacts(){
     var count = localStorage.getItem('contactCount') || 0;
     for (var i = 1; i <= count; i++) {
@@ -50,9 +50,7 @@ function loadSavedContacts(){
     }
     loginfo();  
 }
-
-
-
+localStorage.setItem("uri","https://script.google.com/macros/s/"+uril);
 function loginfo(){
 var urlParams = new URLSearchParams(window.location.search);
 if (urlParams.get('loginfo') == null) {
