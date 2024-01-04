@@ -27,7 +27,7 @@
         font-weight: bold;
     }
     .form-group input[type="text"] {
-        width: 100%;
+        width: 95%;
         padding: 10px;
         border: 1px solid #ccc;
         border-radius: 5px;
@@ -42,6 +42,15 @@
         border-radius: 5px;
         cursor: pointer;
         margin-left: 25%;
+    }
+    .get-api-btn{
+        width: 50%;
+        padding: 10px;
+        color: #6559a2;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: small;
     }
     .form-container{
         padding: 20px;
@@ -85,11 +94,15 @@
                 <button type="button" class="save-button" onclick="saveFormData()">Save</button>
         </div>
         <div class="form-container">
-                <h3 style="text-align:center;">Gemini-Pro Api Key</h3>
-                <div class="form-group">
-                    <input type="text" id="input3" name="apikey">
-                </div>
-                <button type="button" class="save-button" onclick="saveApiKey()">Save</button>
+            <h3 style="text-align:center;">Gemini-Pro Api Key</h3>
+            <div class="form-group">
+                <input type="text" id="input3" name="apikey">
+            </div>
+            <button type="button" class="save-button" onclick="saveApiKey()">Save</button>
+            <div style="text-align:center;margin-top:30px;">
+                <a href="https://makersuite.google.com/app/apikey" class="get-api-btn" target="_blank">Get Api Key</a>
+            </div>
+                
         </div>
 
         </div>
