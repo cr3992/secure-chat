@@ -260,7 +260,8 @@
 	}
  
 	function loadMessages() {
-      const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+      //const formUrl = 'https://corsproxy.io/?' + encodeURIComponent(url);
+      const formUrl = 'https://script.google.com/macros/s/AKfycbzE9QJFc9H-rrQsM1SwddCxvd79BvdgtznLd6b2MFzfCeZEcw2n4rnJJE83FSLDT6V-IA/exec';
       fetch(formUrl)
     .then(response => response.text())
     .then(text => {
